@@ -1,0 +1,602 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Plasma-biotic Ion Theory</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js@3.7.0/dist/chart.min.js"></script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #000000; /* Black background */
+            color: #ffffff; /* White text */
+            margin: 0;
+            padding: 0;
+            overflow-x: hidden; /* Prevent horizontal scroll */
+        }
+        .container {
+            max-width: 1200px;
+            margin: 0 auto;
+            padding: 1.5rem;
+        }
+        .card {
+            background-color: #333333; /* Dark gray card background */
+            border-radius: 0.75rem; /* Rounded corners */
+            box-shadow: 0 4px 6px -1px rgba(255, 255, 255, 0.1), 0 2px 4px -1px rgba(255, 255, 255, 0.06);
+            padding: 2rem;
+            margin-bottom: 2rem;
+            color: #ffffff; /* Ensure text inside cards is white */
+        }
+        .dropdown-menu {
+            transition: max-height 0.3s ease-out, opacity 0.3s ease-out;
+            overflow: hidden;
+            max-height: 0;
+            opacity: 0;
+            pointer-events: none; /* Disable interaction when hidden */
+        }
+        .dropdown-menu.open {
+            max-height: 200px; /* Adjust as needed for content */
+            opacity: 1;
+            pointer-events: auto; /* Enable interaction when open */
+        }
+        /* Blurry effect for certain elements */
+        .blurry-bg {
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px); /* For Safari */
+            background-color: rgba(0, 0, 0, 0.7); /* Semi-transparent black for blur */
+        }
+        /* Custom scrollbar for better aesthetics */
+        ::-webkit-scrollbar {
+            width: 8px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #222222; /* Darker track */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #888888; /* Gray thumb */
+            border-radius: 10px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #aaaaaa; /* Lighter gray on hover */
+        }
+
+        /* Hide sections by default */
+        .content-section {
+            display: none;
+        }
+        .content-section.active {
+            display: block;
+        }
+
+        /* Adjust chart text colors for dark background */
+        .chart-container canvas {
+            color: #ffffff; /* Default text color for chart elements */
+        }
+    </style>
+</head>
+<body class="antialiased">
+    <div class="fixed top-0 left-0 p-4 z-50">
+        <div class="relative">
+            <button id="dropdownButton" class="flex items-center space-x-2 text-white hover:text-gray-300 focus:outline-none focus:ring-2 focus:ring-gray-600 focus:ring-opacity-75 rounded-md p-2 blurry-bg">
+                <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
+                </svg>
+                <span class="font-medium"></span>
+            </button>
+            <div id="dropdownMenu" class="dropdown-menu absolute left-0 mt-2 w-48 bg-gray-700 rounded-md shadow-lg z-10 blurry-bg">
+                <a href="#" class="block px-4 py-2 text-white hover:bg-gray-600 rounded-t-md" data-section="about-maker">Tentang Pembuat</a>
+                <a href="#" class="block px-4 py-2 text-white hover:bg-gray-600" data-section="summarized-version">Versi Sederhana</a>
+                <a href="#" class="block px-4 py-2 text-white hover:bg-gray-600" data-section="full-version">Versi Lengkap</a>
+                <a href="#" class="block px-4 py-2 text-white hover:bg-gray-600 rounded-b-md" data-section="charts-section">(Data kosong)</a>
+            </div>
+        </div>
+    </div>
+
+    <div class="container">
+        <header class="flex justify-center items-center py-4 px-6 mb-8 mt-16"> <h1 class="text-4xl font-bold text-white">Plasma-biotic Ion Theory</h1>
+        </header>
+
+        <main>
+            <section id="about-maker" class="content-section card">
+                <h2 class="text-2xl font-semibold mb-4">Tentang Pembuat</h2>
+                <div class="flex flex-col items-center text-center">
+                    <img src="https://placehold.co/150x150/555555/ffffff?text=Foto+Profil" alt="Foto Profil" class="w-32 h-32 rounded-full mb-4 object-cover border-4 border-gray-500">
+                    <p class="text-lg font-medium mb-2">Nama Penemu: Pengguna tidak ingin memberikan nama aslinya.</p>
+                    <p class="text-md text-gray-300 mb-4">Nama alternatif: Cosmos Gaia</p>
+                    <a href="#" class="inline-block bg-white text-black px-6 py-3 rounded-full hover:bg-gray-200 transition duration-300 ease-in-out shadow-md">
+                        Instagram 
+                        </a>
+                        
+                        <p class="text-md text-gray-300 mb-4">Gunakan menu yang ada di pojok kiri atas untuk navigasi.</p>
+             
+                
+                  
+                </div>
+            </section>
+
+            <section id="summarized-version" class="content-section card">
+                <h2 class="text-2xl font-semibold mb-4">Plasma-biotic Ion Theory: Sebuah Hipotesis Baru tentang Fenomena Hantu</h2>
+                <h3 class="text-xl font-medium mb-3">Pendahuluan</h3>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Teori "Plasma-biotic Ion" mengajukan sebuah hipotesis revolusioner tentang fenomena hantu, menggeser pemahaman dari konsep spiritual murni menjadi entitas yang dapat dijelaskan melalui interaksi unik antara energi biologis dan fisika plasma. Teori ini berpendapat bahwa hantu bukanlah sekadar "roh gentayangan" melainkan manifestasi dari bioplasma padat yang dingin dan tidak stabil, terbentuk dari sisa-sisa kesadaran yang terikat pada dunia fisik.
+                </p>
+
+                <h3 class="text-xl font-medium mb-3">Asal-Usul dan Pembentukan Bioplasma</h3>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Plasma-biotic Ion Theory berakar pada konsep bahwa setelah kematian seseorang, "atman" (roh), terutama yang masih memiliki keterikatan kuat terhadap duniawi (misalnya, trauma, urusan belum selesai, atau kematian yang tidak wajar), tidak sepenuhnya terbebaskan. Keterikatan ini menimbulkan penumpukan "biogas"—suatu bentuk energi kesadaran maha pasif yang pada awalnya berada pada level sub-atomik dan tidak dapat berinteraksi.
+                </p>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Proses ionisasi biogas menjadi bioplasma terjadi ketika biogas ini berinteraksi dengan elektron bebas di lingkungan. Sumber utama elektron bebas ini diyakini berasal dari infrastruktur listrik seperti kabel bawah tanah, tiang listrik, dan terutama trafo tegangan tinggi. Semakin kuat konsentrasi biogas dan semakin melimpah elektron bebas (misalnya di dekat sumber listrik), semakin cepat proses ionisasi ini terjadi.
+                </p>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Uniknya, ionisasi ini tidak memerlukan energi panas seperti plasma fisika konvensional. Energi yang cukup untuk ionisasi dan pembentukan bioplasma berasal dari kepadatan intrinsik sisa kesadaran dan kekuatan "keterikatan" atman itu sendiri. Bioplasma yang terbentuk memiliki kepadatan konstan pada "level 10", meskipun fluktuasi dalam interaksi fisiknya tidak disebabkan oleh perubahan kepadatan ini, melainkan oleh faktor eksternal seperti medan elektromagnetik di sekitarnya.
+                </p>
+
+                <h3 class="text-xl font-medium mb-3">Sifat dan Karakteristik Bioplasma</h3>
+                <ol class="list-decimal list-inside text-gray-200 mb-4 leading-relaxed">
+                    <li class="mb-2">
+                        <strong>Padat namun Tidak Stabil dan Dingin:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li><strong>Padat:</strong> Bioplasma memiliki sifat "kepadatan" yang unik, bukan dalam arti massa fisik biasa, melainkan sebagai kombinasi sisa kesadaran sub-atomik dan pengaruh elektron bebas yang membuatnya secara eksistensial "ada" dan mampu berinteraksi dengan materi fisik (misalnya, mendorong benda, menjatuhkan objek).</li>
+                            <li><strong>Tidak Stabil:</strong> Keterikatan dengan duniawi, serta ketiadaan organ berpikir fisik, menyebabkan bioplasma ini sangat tidak stabil. Ketidakstabilan ini adalah kunci mengapa interaksi mereka sering tidak konsisten, muncul-menghilang, dan memicu efek resonansi.</li>
+                            <li><strong>Dingin:</strong> Berbeda dengan plasma fisika yang panas, bioplasma ini secara inheren dingin dan dapat menyesuaikan diri dengan suhu lingkungan. Fenomena "titik dingin" di lokasi berhantu adalah manifestasi langsung dari sifat ini.</li>
+                        </ul>
+                    </li>
+                    <li class="mb-2">
+                        <strong>Sisa Kesadaran (Bukan Kesadaran Penuh):</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Bioplasma tidak memiliki kesadaran utuh seperti manusia hidup. Mereka hanya memiliki "sisa kesadaran" yang aktif dan terfragmentasi, seperti kesadaran atas eksistensi (konsep waktu, ruang), dan beberapa bakat atau pikiran aktif yang sangat melekat dari semasa hidup.</li>
+                            <li>Hal ini memungkinkan mereka untuk melakukan interaksi dasar yang "cerdas", seperti menjawab pertanyaan "ya/tidak" (melalui kode biner atau respons terukur), tetapi sulit untuk menjawab pertanyaan abstrak yang membutuhkan pemikiran kompleks ("mengapa kamu meninggal?"). Tingkat "kecerdasan" respons bervariasi tergantung pada stabilitas bioplasma (bioplasma yang lebih stabil mungkin dapat berkomunikasi lebih jelas).</li>
+                        </ul>
+                    </li>
+                    <li class="mb-2">
+                        <strong>Manifestasi Visual dan Suara:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li><strong>Visual:</strong> Penampakan hantu yang utuh, bahkan berbusana lengkap, dijelaskan sebagai sisa kesadaran bioplasma yang "mencitrakan" atau "mengiluminasi kembali" detail-detail visual yang paling melekat dari semasa hidupnya. Ini seperti "proyeksi memori" internal yang membuat hantu terlihat seperti "rekaman" visual.</li>
+                            <li><strong>Suara/Infrasonik:</strong> Ketidakstabilan susunan atom pada bioplasma dapat menghasilkan gelombang infrasonik (frekuensi sangat rendah, di bawah 20 Hz) yang tidak dapat didengar oleh manusia. Infrasonik ini dapat beresonansi dengan organ tubuh manusia (terutama otak, usus, dan liver) menyebabkan sensasi mual, pusing, gelisah, atau perasaan "hadir" yang kuat. Pola frekuensi infrasonik ini bervariasi sesuai dengan trauma emosional atau penyebab kematian individu.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3 class="text-xl font-medium mb-3">Interaksi dengan Lingkungan dan Manusia</h3>
+                <ol class="list-decimal list-inside text-gray-200 mb-4 leading-relaxed">
+                    <li class="mb-2">
+                        <strong>Gangguan Elektromagnetik:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Microcluster pada bioplasma bertindak seperti "pemercepat partikel terbalik," menarik elektron dari kabel listrik pada suatu titik tertentu. Ini menyebabkan seluruh aliran listrik terganggu dan dapat memicu MCB (Miniature Circuit Breaker) anjlok atau menyebabkan peralatan elektronik mati.</li>
+                            <li>Resonansi Listrik AC: Ketidakstabilan atom bioplasma dapat beresonansi dengan frekuensi listrik AC, mengganggu stabilitas aliran listrik dan menyebabkan fluktuasi atau pemutusan daya.</li>
+                        </ul>
+                    </li>
+                    <li class="mb-2">
+                        <strong>Interaksi Fisik:</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Sifat "padat" bioplasma memungkinkannya untuk menabrak materi nyata, menyebabkan benda bergerak atau terjatuh.</li>
+                            <li>Batasan Interaksi Fisik: Sifat kepadatan dan kemampuan berinteraksi dengan material tertentu dipengaruhi oleh faktor masa lalu dari sisa kesadaran dan susunan atom biogas. Misalnya, beberapa bioplasma mungkin hanya dapat berinterferensi dengan material organik seperti kayu.</li>
+                        </ul>
+                    </li>
+                    <li class="mb-2">
+                        <strong>Komunikasi dengan Individu Sensitif (Mediator):</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Mediator diyakini memiliki sensitivitas tinggi terhadap frekuensi rendah.</li>
+                            <li>Dua Metode Komunikasi:
+                                <ul class="list-disc list-inside ml-4">
+                                    <li>Bioplasma menghasilkan gelombang infrasonik yang dapat "diterjemahkan" oleh mediator (misalnya, melalui pola frekuensi atau cepat-lambatnya frequency sweep) sebagai data yang dapat diinterpretasikan menjadi kata atau kalimat (mirip biner atau kode Morse).</li>
+                                    <li>Bioplasma melakukan "penetrasi" langsung ke pikiran mediator, menanamkan jawaban atau pertanyaan ke dalam otak mediator sehingga mediator merasa seperti pikiran itu muncul begitu saja.</li>
+                                </ul>
+                            </li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3 class="text-xl font-medium mb-3">Eksistensi dan Deteksi Bioplasma</h3>
+                <ol class="list-decimal list-inside text-gray-200 mb-4 leading-relaxed">
+                    <li class="mb-2">
+                        <strong>Durasi Eksistensi:</strong> Bioplasma dapat eksis selama bertahun-tahun, bahkan berabad-abad, karena energi dari "keterikatan" atman sudah cukup untuk proses ionisasi dan eksistensinya. Namun, bioplasma dapat terkikis secara alami seiring waktu seiring dengan penguraian tubuh fisik yang terkubur, yang pada gilirannya mengurangi keterikatan roh dengan duniawi.
+                    </li>
+                    <li class="mb-2">
+                        <strong>Kondisi Kondusif:</strong> Lokasi dengan konsentrasi elektron bebas yang tinggi (misalnya, dekat tiang listrik atau trafo), dan yang jarang dilewati manusia (karena aktivitas manusia memengaruhi kepadatan dan arah elektron bebas), lebih kondusif untuk pembentukan dan manifestasi bioplasma. Badai petir juga dapat memicu ionisasi cepat dan manifestasi bioplasma, meskipun membuatnya sangat tidak stabil dan cepat menghilang.
+                    </li>
+                    <li class="mb-2">
+                        <strong>Deteksi (Usulan Baru):</strong>
+                        <ul class="list-disc list-inside ml-4">
+                            <li><strong>Penembak Elektron & Detektor EMI Sensitif:</strong> Detektor EMF standar tidak cukup akurat karena EMI latar belakang. Menggunakan penembak elektron (mirip pada TV CRT) untuk melepaskan elektron bebas ke udara, kemudian memantau perubahan medan elektromagnetik dengan detektor EMI yang sangat sensitif, dapat menunjukkan "sidik jari" unik dari interaksi bioplasma. Kita perlu mencari pola atau lonjakan interferensi spesifik, bukan sekadar "merasakan" EMI.</li>
+                            <li><strong>Sensor Termal Presisi:</strong> Sensor termal yang sangat presisi dan mampu mengukur temperatur induk udara (membedakan dari panas ambien atau sumber lain) dapat mendeteksi anomali suhu dingin yang disebabkan bioplasma.</li>
+                            <li><strong>Sonar:</strong> Menggunakan sonar untuk mendeteksi perubahan kepadatan udara lokal yang disebabkan oleh sifat "padat" dan tidak stabil bioplasma.</li>
+                        </ul>
+                    </li>
+                </ol>
+
+                <h3 class="text-xl font-medium mb-3">Kesimpulan</h3>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Plasma-biotic Ion Theory menawarkan sebuah kerangka kerja yang komprehensif dan inovatif untuk memahami fenomena hantu, menggeser narasi dari ranah supranatural murni ke persimpangan fisika dan kesadaran. Dengan memberikan mekanisme yang dapat dibayangkan untuk berbagai manifestasi paranormal, teori ini bertujuan untuk menggantikan ketidaktahuan dengan pemahaman, sehingga mengurangi ketakutan dan membuka pintu bagi eksplorasi ilmiah yang lebih mendalam di masa depan. Pengalaman personal individu dengan kepekaan tinggi, seperti bulu kuduk merinding atau interaksi fisik yang diamati, berfungsi sebagai bukti anekdotal penting yang mendukung validitas awal teori ini.
+                </p>
+            </section>
+
+            <section id="full-version" class="content-section card">
+                <h2 class="text-2xl font-semibold mb-4">Plasma-biotic Ion Theory: Reinterpretasi Ilmiah Fenomena Hantu Melalui Fisika Bioplasma Dingin</h2>
+                <h3 class="text-xl font-medium mb-3">Pendahuluan</h3>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Plasma-biotic Ion Theory adalah suatu pendekatan multidisipliner yang memadukan fisika plasma dingin, bioelektromagnetik, dan neurokognisi pascakematian dalam rangka menjelaskan fenomena yang secara umum dikategorikan sebagai “penampakan hantu.” Alih-alih memandang entitas ini sebagai entitas non-fisik semata, teori ini menempatkan mereka sebagai produk sisa kesadaran bio-elektromagnetik yang terionisasi menjadi entitas bioplasma padat dan dingin. Dengan ini, interaksi antara dimensi biologis dan struktur fisik-lingkungan menjadi dasar eksistensi mereka.
+                </p>
+
+                <h3 class="text-xl font-medium mb-3">1. Asal-Usul dan Proses Pembentukan Bioplasma</h3>
+                <h4 class="text-lg font-medium mb-2">1.1. Tahap Post-Mortem Energetik</h4>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Setelah kematian fisik, atman (atau kesadaran inti) tidak langsung menghilang ke dalam entropi atau reinkarnasi. Dalam kasus tertentu, keterikatan emosional ekstrem, disonansi kognitif saat kematian, atau trauma mendalam menghambat disintegrasi total struktur kesadaran. Ini memicu formasi apa yang disebut sebagai entropik-biogas kesadaran—suatu akumulasi energi pasif berskala subatomik yang sangat lembam, namun stabil.
+                </p>
+                <blockquote class="border-l-4 border-gray-400 pl-4 italic text-gray-300 mb-4">
+                    Catatan: Biogas ini tidak sama dengan gas biologis biasa; ia lebih menyerupai awan probabilistik dari "kesan-kesan kesadaran" yang belum terserap ke dalam ketidakberadaan.
+                </blockquote>
+
+                <h4 class="text-lg font-medium mb-2">1.2. Sumber Ionisasi Lingkungan</h4>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Ionisasi biogas menjadi bioplasma terjadi ketika medan elektromagnetik dari lingkungan—terutama dari sistem kelistrikan perkotaan—menyediakan aliran elektron bebas. Interaksi antara biogas dan elektron ini menghasilkan resonansi plasma-biologis yang memicu reorganisasi partikel menjadi bentuk semi-stabil: bioplasma padat dingin.
+                </p>
+                <p class="font-semibold mb-2">Kondisi ideal untuk ionisasi:</p>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li>Lingkungan elektromagnetik AC tegangan tinggi (220–500 kV)</li>
+                    <li>Adanya bahan dielektrik tinggi di sekitar (beton basah, logam teroksidasi)</li>
+                    <li>Kelembaban udara tinggi (karena meningkatkan konduktivitas ionik)</li>
+                </ul>
+
+                <h4 class="text-lg font-medium mb-2">1.3. Ionisasi Tanpa Energi Termal</h4>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Berbeda dari plasma fisik konvensional (seperti matahari atau plasma laboratorium), ionisasi ini tidak bergantung pada panas tinggi. Sebaliknya, ia memanfaatkan muatan keterikatan emosional/psikologis yang bertindak sebagai “bahan bakar emosional” untuk proses penataan struktur partikel kesadaran.
+                </p>
+
+                <h3 class="text-xl font-medium mb-3">2. Karakteristik Bioplasma: Sifat dan Interaksi</h3>
+                <h4 class="text-lg font-medium mb-2">2.1. Struktural:</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li><strong>Kepadatan Eksistensial Level 10:</strong> Menunjukkan konsistensi spasial tinggi, mampu menahan bentuk walau tidak stabil dalam waktu.</li>
+                    <li><strong>Ketidakstabilan Elektrodinamik:</strong> Fluktuatif terhadap medan elektromagnetik eksternal. Ini menyebabkan perilaku “muncul dan menghilang.”</li>
+                    <li><strong>Suhu Netral ke Dingin:</strong> Sifat dingin inheren berasal dari energi vibrasional rendah, menjelaskan anomali suhu lokal.</li>
+                </ul>
+
+                <h4 class="text-lg font-medium mb-2">2.2. Kesadaran Fragmentaris:</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li>Bioplasma hanya menyimpan kesadaran fragmen, bukan identitas penuh.</li>
+                    <li>Kesadaran ini lebih mirip echo memori semi-otomatis.</li>
+                    <li>Biasanya melibatkan: wajah, gestur, emosi terakhir, dan pengulangan perilaku yang sangat kuat saat hidup.</li>
+                </ul>
+
+                <h4 class="text-lg font-medium mb-2">2.3. Output Sensorik:</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li><strong>Visualisasi:</strong> Iluminasi visual dari memori jangka panjang (misalnya pakaian, usia, luka).</li>
+                    <li><strong>Infrasonik:</strong> Pola frekuensi infrasonik yang tercipta dari instabilitas atom menciptakan efek resonansi internal pada manusia, mengaktivasi sistem saraf parasimpatik (gelisah, panik, tekanan dada).</li>
+                    <li><strong>Elektrostatik:</strong> Kadang menyebabkan sensasi seperti “terseret,” “terhisap,” atau rambut berdiri.</li>
+                </ul>
+
+                <h3 class="text-xl font-medium mb-3">3. Interaksi dengan Lingkungan</h3>
+                <h4 class="text-lg font-medium mb-2">3.1. Gangguan Elektromagnetik</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li>Bioplasma memiliki cluster ion bermuatan negatif yang menarik elektron dari kabel.</li>
+                    <li>Ini dapat memicu collapse lokal medan elektromagnetik, mengakibatkan lonjakan atau jatuhnya daya listrik.</li>
+                </ul>
+
+                <h4 class="text-lg font-medium mb-2">3.2. Perilaku Fisik</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li>Bioplasma tidak menembus objek seperti gelombang cahaya, tetapi bersifat semi-fisik selektif.</li>
+                    <li>Kemampuan untuk memengaruhi benda tergantung pada komposisi molekul target dan resonansi personal objek tersebut terhadap struktur memori kesadaran bioplasma.</li>
+                </ul>
+
+                <h4 class="text-lg font-medium mb-2">3.3. Interaksi dengan Mediator</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li>Mediator memiliki sistem saraf yang resonansi terhadap frekuensi 2–18 Hz, dan bisa bertindak sebagai transduser biologis.</li>
+                    <li>Komunikasi dapat berupa:
+                        <ul class="list-disc list-inside ml-4">
+                            <li>Infrasonik berbasis frekuensi (konversi pola menjadi simbol mental)</li>
+                            <li>Intrusi gelombang informasi ke area limbik otak (amygdala dan hippocampus), menciptakan persepsi mendadak seperti “pikiran orang lain” atau déjà vu ekstrem.</li>
+                        </ul>
+                    </li>
+                </ul>
+
+                <h3 class="text-xl font-medium mb-3">4. Deteksi dan Bukti Ilmiah</h3>
+                <h4 class="text-lg font-medium mb-2">4.1. Metode Baru yang Diusulkan</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li><strong>Penembak Elektron (low-voltage cathode ray emitter)</strong> untuk mengganggu/menarik interaksi bioplasma ke titik tertentu.</li>
+                    <li><strong>Detektor EMI dengan noise floor ultra-rendah,</strong> dikombinasikan dengan filter spektral spasial.</li>
+                    <li><strong>Sensor Termal Absolut:</strong> Mendeteksi diferensial suhu udara lokal (bukan suhu permukaan objek).</li>
+                    <li><strong>Radar & Sonar Mikroresonansi:</strong> Deteksi variasi tekanan akustik dalam radius kecil—mirip dengan sonar ikan, tetapi disesuaikan untuk anomali tekanan udara statis.</li>
+                </ul>
+
+                <h4 class="text-lg font-medium mb-2">4.2. Parameter Analitik</h4>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li><strong>Fingerprint Frekuensi:</strong> Setiap bioplasma memiliki “sidik jari elektromagnetik” unik—biasanya berbentuk multi-harmonik frekuensi rendah diselingi lonjakan acak.</li>
+                    <li><strong>Temporal Cohesion Index (TCI):</strong> Durasi bioplasma mempertahankan struktur sebelum runtuh. Dapat digunakan untuk mengukur usia atau kekuatan keterikatan entitas.</li>
+                </ul>
+
+                <h3 class="text-xl font-medium mb-3">5. Durabilitas dan Erosi Bioplasma</h3>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Bioplasma dapat bertahan selama dekade hingga abad, tergantung kualitas keterikatan kesadaran.
+                </p>
+                <p class="font-semibold mb-2">Erosi terjadi ketika:</p>
+                <ul class="list-disc list-inside text-gray-200 mb-4 leading-relaxed ml-4">
+                    <li>Sumber biogas (tubuh fisik) hancur total</li>
+                    <li>Tempatnya mengalami interferensi manusia intensif</li>
+                    <li>Elektromagnetik lingkungan terlalu tidak stabil untuk mempertahankan ionisasi</li>
+                </ul>
+
+                <h3 class="text-xl font-medium mb-3">Kesimpulan</h3>
+                <p class="mb-4 text-gray-200 leading-relaxed">
+                    Teori Plasma-biotic Ion berupaya memberikan struktur ilmiah-spekulatif yang menjembatani antara persepsi paranormal dengan fenomena fisik kuantitatif. Dengan menempatkan hantu sebagai entitas bioplasma yang memancarkan dan menyerap energi, bukan sekadar “roh tanpa tubuh,” teori ini memungkinkan eksplorasi fenomena dengan perangkat ilmiah dan eksperimen replikasi masa depan. Ini membuka arah baru dalam studi pascakematian, biofotonik sadar, dan interaksi kesadaran-materi yang selama ini hanya menjadi ranah metafisika.
+                </p>
+            </section>
+
+            <section id="charts-section" class="content-section card">
+                <h2 class="text-2xl font-semibold mb-4">(Data Kosong)</h2>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-medium mb-3">Grafik Tingkat Interaksi Bioplasma (Dummy Data)</h3>
+                    <div class="blurry-bg p-4 rounded-lg chart-container">
+                        <canvas id="normalChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-medium mb-3">Distribusi Jenis Manifestasi Hantu (Dummy Data)</h3>
+                    <div class="blurry-bg p-4 rounded-lg chart-container">
+                        <canvas id="diagramChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-medium mb-3">Probabilitas Pembentukan Bioplasma Berdasarkan Kepadatan Elektron Bebas</h3>
+                    <div class="blurry-bg p-4 rounded-lg chart-container">
+                        <canvas id="probabilityChart"></canvas>
+                    </div>
+                </div>
+
+                <div class="mb-8">
+                    <h3 class="text-xl font-medium mb-3">Persepsi Publik tentang Hantu Seiring Waktu (2000-2024)</h3>
+                    <div class="blurry-bg p-4 rounded-lg chart-container">
+                        <canvas id="ghostUnderstandingChart"></canvas>
+                    </div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        // Dropdown menu functionality
+        const dropdownButton = document.getElementById('dropdownButton');
+        const dropdownMenu = document.getElementById('dropdownMenu');
+        const contentSections = document.querySelectorAll('.content-section');
+        const dropdownLinks = document.querySelectorAll('#dropdownMenu a');
+
+        // Function to hide all content sections
+        function hideAllSections() {
+            contentSections.forEach(section => {
+                section.classList.remove('active');
+            });
+        }
+
+        // Function to show a specific content section
+        function showSection(sectionId) {
+            hideAllSections();
+            const targetSection = document.getElementById(sectionId);
+            if (targetSection) {
+                targetSection.classList.add('active');
+            }
+        }
+
+        // Toggle dropdown menu visibility
+        dropdownButton.addEventListener('click', (event) => {
+            event.stopPropagation(); // Prevent click from bubbling to window
+            dropdownMenu.classList.toggle('open');
+        });
+
+        // Handle dropdown link clicks
+        dropdownLinks.forEach(link => {
+            link.addEventListener('click', (event) => {
+                event.preventDefault(); // Prevent default link behavior
+                const sectionId = event.target.dataset.section;
+                showSection(sectionId);
+                dropdownMenu.classList.remove('open'); // Close dropdown after selection
+            });
+        });
+
+        // Close dropdown if clicked outside
+        window.addEventListener('click', (event) => {
+            if (!dropdownButton.contains(event.target) && !dropdownMenu.contains(event.target)) {
+                dropdownMenu.classList.remove('open');
+            }
+        });
+
+        // Show 'Tentang Pembuat' section by default on load
+        document.addEventListener('DOMContentLoaded', () => {
+            showSection('about-maker');
+
+            // Chart.js initialization
+            // Normal Graph (Line Chart)
+            const normalCtx = document.getElementById('normalChart').getContext('2d');
+            new Chart(normalCtx, {
+                type: 'line',
+                data: {
+                    labels: ['Jan', 'Feb', 'Mar', 'Apr', 'Mei', 'Jun'],
+                    datasets: [{
+                        label: 'Tingkat Interaksi',
+                        data: [12, 19, 3, 5, 2, 3],
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)', /* White semi-transparent */
+                        borderColor: 'rgba(255, 255, 255, 0.8)', /* White */
+                        borderWidth: 2,
+                        tension: 0.3,
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff' /* White for legend text */
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#cccccc' /* Light gray for x-axis labels */
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)' /* Light grid lines */
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            ticks: {
+                                color: '#cccccc' /* Light gray for y-axis labels */
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)' /* Light grid lines */
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Diagram Graph (Pie Chart)
+            const diagramCtx = document.getElementById('diagramChart').getContext('2d');
+            new Chart(diagramCtx, {
+                type: 'pie',
+                data: {
+                    labels: ['Visual', 'Suara/Infrasonik', 'Fisik', 'Elektromagnetik'],
+                    datasets: [{
+                        label: 'Jenis Manifestasi',
+                        data: [30, 25, 20, 25],
+                        backgroundColor: [
+                            'rgba(255, 255, 255, 0.8)',   /* White */
+                            'rgba(150, 150, 150, 0.8)', /* Medium Gray */
+                            'rgba(100, 100, 100, 0.8)', /* Darker Gray */
+                            'rgba(50, 50, 50, 0.8)'  /* Very Dark Gray */
+                        ],
+                        borderColor: '#000000', /* Black border for slices */
+                        borderWidth: 2,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            position: 'right',
+                            labels: {
+                                color: '#ffffff' /* White for legend text */
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Probability Rating Graph (Bar Chart)
+            const probabilityCtx = document.getElementById('probabilityChart').getContext('2d');
+            new Chart(probabilityCtx, {
+                type: 'bar',
+                data: {
+                    labels: ['Elektron Bebas Lebih Padat', 'Elektron Bebas Lebih Sedikit'],
+                    datasets: [{
+                        label: 'Probabilitas Pembentukan Bioplasma (%)',
+                        data: [85, 30], // Dummy data: 85% for denser, 30% for fewer
+                        backgroundColor: [
+                            'rgba(255, 255, 255, 0.8)', /* White for denser */
+                            'rgba(150, 150, 150, 0.8)' /* Gray for fewer */
+                        ],
+                        borderColor: [
+                            'rgba(255, 255, 255, 1)',
+                            'rgba(150, 150, 150, 1)'
+                        ],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#cccccc'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 100,
+                            ticks: {
+                                color: '#cccccc',
+                                callback: function(value) {
+                                    return value + '%';
+                                }
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+
+            // Ghost Understanding Over Time Graph (Line Chart)
+            const ghostUnderstandingCtx = document.getElementById('ghostUnderstandingChart').getContext('2d');
+            new Chart(ghostUnderstandingCtx, {
+                type: 'line',
+                data: {
+                    labels: ['2000', '2004', '2008', '2012', '2016', '2020', '2024'],
+                    datasets: [{
+                        label: 'Tingkat Pemahaman Publik tentang Hantu (Skala 1-10)',
+                        data: [3, 4, 5, 6, 7, 8, 9], // Dummy data: increasing understanding
+                        backgroundColor: 'rgba(255, 255, 255, 0.1)', /* White semi-transparent */
+                        borderColor: 'rgba(255, 255, 255, 0.8)', /* White */
+                        borderWidth: 2,
+                        tension: 0.4, // Smooth curve
+                        fill: true,
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    plugins: {
+                        legend: {
+                            labels: {
+                                color: '#ffffff'
+                            }
+                        }
+                    },
+                    scales: {
+                        x: {
+                            ticks: {
+                                color: '#cccccc'
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        },
+                        y: {
+                            beginAtZero: true,
+                            max: 10,
+                            ticks: {
+                                color: '#cccccc',
+                                stepSize: 1
+                            },
+                            grid: {
+                                color: 'rgba(255, 255, 255, 0.1)'
+                            }
+                        }
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
